@@ -22,7 +22,10 @@ def create_shader(shader_type, shader_source):
 
 def create_program(shaders):
 	program_id = GL.glCreateProgram()
+	link_program(program_id, shaders)
+	return program_id
 
+def link_program(program_id, shaders):
 	for shader_id in shaders:
 		GL.glAttachShader(program_id, shader_id)
 
@@ -32,5 +35,3 @@ def create_program(shaders):
 		info_log = GL.glGetProgramInfoLog(program_id)
 		if info_log != '': info_log = info_log.decode('ascii')
 		raise ProgramLinkError(info_log)
-
-	return program_id

@@ -1,5 +1,7 @@
 from .gl import GL
+from . import contextmanager
 
+@contextmanager.activatable
 class VBO:
 	def __init__(self, buffer_type, usage_hint):
 		self.id = GL.glGenBuffers(1)

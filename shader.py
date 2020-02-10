@@ -35,3 +35,18 @@ def link_program(program_id, shaders):
 		info_log = GL.glGetProgramInfoLog(program_id)
 		if info_log != '': info_log = info_log.decode('ascii')
 		raise ProgramLinkError(info_log)
+
+class Program:
+	def __init__(self):
+		self.id = GL.glCreateProgram()
+		self.shader_ids = []
+
+	def add_shader(self, shader_type, shader_source):
+		shader_id = create_shader(shader_type, shader_source)
+		self.shader_ids.append(shader_id)
+
+	def link(self):
+		link_program(self.id, self.shader_ids)
+
+	def activate(self):
+		GL.glUseProgram(self.id)

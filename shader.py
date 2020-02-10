@@ -1,4 +1,5 @@
 from .gl import GL
+from . import uniform
 
 class ShaderCompileError(Exception):
 	def __init__(self, info_log):
@@ -40,6 +41,7 @@ class Program:
 	def __init__(self):
 		self.id = GL.glCreateProgram()
 		self.shader_ids = []
+		self._uniform_locations = {}
 
 	def add_shader(self, shader_type, shader_source):
 		shader_id = create_shader(shader_type, shader_source)
@@ -50,6 +52,14 @@ class Program:
 
 	def activate(self):
 		GL.glUseProgram(self.id)
+
+	def get_uniform_location(self, name, silent=False):
+		if name not in self._uniform_locations:
+			location = uniform.get_uniform_location(self.id, name, silent=silent)
+			if location != -1:
+				self._uniform_locations[name] = location
+
+		return self._uniform_locations[name]
 
 class VertexFragmentProgram(Program):
 	def __init__(self, vertex_shader, fragment_shader):

@@ -10,9 +10,6 @@ class VAO:
 		GL.glBindVertexArray(self.id)
 
 	@contextmanager.activated
-	def enable_vertex_attrib_array(self, index):
-		GL.glEnableVertexAttribArray(index)
-
-	@contextmanager.activated
 	def set_vertex_attrib(self, vbo, index, components, item_type):
+		GL.glEnableVertexAttribArray(index)
 		vbo._vertex_attrib_pointer(index, components, item_type)

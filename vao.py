@@ -8,3 +8,7 @@ class VAO:
 
 	def activate(self):
 		GL.glBindVertexArray(self.id)
+
+	@contextmanager.activated
+	def enable_vertex_attrib_array(self, index):
+		GL.glEnableVertexAttribArray(index)

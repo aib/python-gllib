@@ -11,4 +11,5 @@ def _activatable_enter(self):
 	return self
 
 def _activatable_exit(self, exc_type, exc_value, traceback):
-	pass
+	if hasattr(self, 'deactivate'):
+		self.deactivate()

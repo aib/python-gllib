@@ -12,3 +12,7 @@ class VAO:
 	@contextmanager.activated
 	def enable_vertex_attrib_array(self, index):
 		GL.glEnableVertexAttribArray(index)
+
+	@contextmanager.activated
+	def set_vertex_attrib(self, vbo, index, components, item_type):
+		vbo._vertex_attrib_pointer(index, components, item_type)

@@ -16,5 +16,5 @@ class VBO:
 		GL.glBufferData(self.type, data, self.hint)
 
 	@contextmanager.activated
-	def vertex_attrib_pointer(self, index, components, item_type):
+	def _vertex_attrib_pointer(self, index, components, item_type):
 		GL.glVertexAttribPointer(index, components, item_type, False, 0, None)

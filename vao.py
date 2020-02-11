@@ -1,5 +1,7 @@
 from .gl import GL
+from . import contextmanager
 
+@contextmanager.activatable
 class VAO:
 	def __init__(self):
 		self.id = GL.glGenVertexArrays(1)

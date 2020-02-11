@@ -1,4 +1,5 @@
 from .gl import GL
+from . import contextmanager
 from . import uniform
 
 class ShaderCompileError(Exception):
@@ -37,6 +38,7 @@ def link_program(program_id, shaders):
 		if info_log != '': info_log = info_log.decode('ascii')
 		raise ProgramLinkError(info_log)
 
+@contextmanager.activatable
 class Program:
 	def __init__(self):
 		self.id = GL.glCreateProgram()

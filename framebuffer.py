@@ -1,26 +1,18 @@
 from .gl import GL
 from . import contextmanager
+from . import texture
 
 @contextmanager.activatable
 class Framebuffer:
-	@contextmanager.activatable
-	class FramebufferTexture:
+	class FramebufferTexture(texture.Texture):
 		def __init__(self, size):
+			super().__init__(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BINDING_2D)
 			self.size = size
-			self.id = GL.glGenTextures(1)
-			self.last_active_id = None
+
 			with self:
 				GL.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, self.size[0], self.size[1], 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, None)
 				GL.glTexParameter(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_NEAREST);
 				GL.glTexParameter(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_NEAREST);
-
-		def activate(self):
-			self.last_active_id = GL.glGetInteger(GL.GL_TEXTURE_BINDING_2D)
-			GL.glBindTexture(GL.GL_TEXTURE_2D, self.id)
-
-		def deactivate(self):
-			GL.glBindTexture(GL.GL_TEXTURE_2D, self.last_active_id)
-			self.last_active_id = None
 
 	def __init__(self, size):
 		self.size = size

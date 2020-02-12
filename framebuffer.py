@@ -27,7 +27,7 @@ class Framebuffer:
 		self.id = GL.glGenFramebuffers(1)
 		self.last_active_id = None
 
-		self.texture = self.FramebufferTexture(self.size)
+		self.texture = self._create_texture()
 		with self:
 			GL.glFramebufferTexture2D(GL.GL_DRAW_FRAMEBUFFER, GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D, self.texture.id, 0)
 
@@ -41,3 +41,6 @@ class Framebuffer:
 
 	def activate_for_read(self):
 		GL.glBindFramebuffer(GL.GL_READ_FRAMEBUFFER, self.id)
+
+	def _create_texture(self):
+		return self.FramebufferTexture(self.size)

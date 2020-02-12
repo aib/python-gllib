@@ -36,3 +36,20 @@ class Framebuffer:
 
 	def _create_texture(self):
 		return self.FramebufferTexture(self.size)
+
+class MultisampledFramebuffer(Framebuffer):
+	class MultisampledFramebufferTexture(texture.Texture):
+		def __init__(self, samples, size):
+			super().__init__(GL.GL_TEXTURE_2D_MULTISAMPLE, GL.GL_TEXTURE_BINDING_2D_MULTISAMPLE)
+			self.samples = samples
+			self.size = size
+
+			with self:
+				GL.glTexImage2DMultisample(self.type, self.samples, GL.GL_RGBA8, self.size[0], self.size[1], False)
+
+	def __init__(self, samples, size):
+		self.samples = samples
+		super().__init__(size)
+
+	def _create_texture(self):
+		return self.MultisampledFramebufferTexture(self.samples, self.size)

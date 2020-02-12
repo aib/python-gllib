@@ -5,25 +5,26 @@ from . import vao
 from . import vbo
 
 VERTEX_SHADER = """\
-#version 110
+#version 100
 
-attribute vec2 texCoords;
+attribute highp vec3 position;
+attribute highp vec2 texCoords;
 
-varying vec2 vf_texCoords;
+varying highp vec2 vf_texCoords;
 
 void main()
 {
-	gl_Position = gl_Vertex;
+	gl_Position = vec4(position, 1.);
 	vf_texCoords = texCoords;
 }
 """
 
 FRAGMENT_SHADER = """\
-#version 110
+#version 100
 
 uniform sampler2D t_texture;
 
-varying vec2 vf_texCoords;
+varying highp vec2 vf_texCoords;
 
 void main()
 {

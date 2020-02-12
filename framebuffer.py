@@ -34,6 +34,9 @@ class Framebuffer:
 	def activate_for_read(self):
 		GL.glBindFramebuffer(GL.GL_READ_FRAMEBUFFER, self.id)
 
+	def blit(self):
+		GL.glBlitFramebuffer(0, 0, self.size[0], self.size[1], 0, 0, self.size[0], self.size[1], GL.GL_COLOR_BUFFER_BIT, GL.GL_NEAREST)
+
 	def _create_texture(self):
 		return self.FramebufferTexture(self.size)
 

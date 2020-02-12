@@ -10,6 +10,6 @@ class VAO:
 		GL.glBindVertexArray(self.id)
 
 	@contextmanager.activated
-	def set_vertex_attrib(self, vbo, index, components, item_type):
+	def set_vertex_attrib(self, vbo, index, components, item_type, stride=0, offset=0):
 		GL.glEnableVertexAttribArray(index)
-		vbo._vertex_attrib_pointer(index, components, item_type)
+		vbo._vertex_attrib_pointer(index, components, item_type, stride=stride, offset=offset)

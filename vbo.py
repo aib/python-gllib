@@ -1,6 +1,8 @@
 from .gl import GL
 from . import contextmanager
 
+import ctypes
+
 @contextmanager.activatable
 class VBO:
 	def __init__(self, buffer_type, usage_hint):
@@ -19,5 +21,5 @@ class VBO:
 		GL.glBindBufferBase(self.type, index, self.id)
 
 	@contextmanager.activated
-	def _vertex_attrib_pointer(self, index, components, item_type):
-		GL.glVertexAttribPointer(index, components, item_type, False, 0, None)
+	def _vertex_attrib_pointer(self, index, components, item_type, stride=0, offset=0):
+		GL.glVertexAttribPointer(index, components, item_type, False, stride, ctypes.c_void_p(offset))

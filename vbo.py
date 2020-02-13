@@ -13,6 +13,10 @@ class VBO:
 	def activate(self):
 		GL.glBindBuffer(self.type, self.id)
 
+	@contextmanager.activator
+	def bind_as(self, bind_type):
+		GL.glBindBuffer(bind_type, self.id)
+
 	@contextmanager.activated
 	def set_data(self, data):
 		GL.glBufferData(self.type, data, self.hint)

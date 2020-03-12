@@ -1,8 +1,16 @@
 import functools
 
 def activatable(cls):
-	cls.__enter__ = _activatable_enter
-	cls.__exit__ = _activatable_exit
+	def activatable_enter(self):
+		self.activate()
+		return self
+
+	def activatable_exit(self, exc_type, exc_value, traceback):
+		if hasattr(self, 'deactivate'):
+		self.deactivate()
+
+	cls.__enter__ = activatable_enter
+	cls.__exit__ = activatable_exit
 	return cls
 
 def activated(func):
@@ -25,11 +33,3 @@ class _ActivatorProxy:
 
 	def __exit__(self, exc_type, exc_value, traceback):
 		pass
-
-def _activatable_enter(self):
-	self.activate()
-	return self
-
-def _activatable_exit(self, exc_type, exc_value, traceback):
-	if hasattr(self, 'deactivate'):
-		self.deactivate()

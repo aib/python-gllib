@@ -18,6 +18,13 @@ class TestContextManager(unittest.TestCase):
 			self.active = False
 			self.deactivated = True
 
+		def normal_method(self):
+			pass
+
+		@contextmanager.activated
+		def activated_method(self):
+			pass
+
 	def test_default_activation(self):
 		sa = self.SimpleActivated()
 
@@ -65,3 +72,13 @@ class TestContextManager(unittest.TestCase):
 		self.assertTrue(aa.activated)
 		self.assertFalse(aa.active)
 		self.assertTrue(aa.deactivated)
+
+	def test_activated_calls(self):
+		sa = self.SimpleActivated()
+
+		sa.normal_method()
+
+		self.assertRaises(contextmanager.ActivationRequiredException, lambda: sa.activated_method())
+
+		with sa as s:
+			s.activated_method()

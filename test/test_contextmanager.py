@@ -57,6 +57,13 @@ class TestContextManager(unittest.TestCase):
 			self.active = False
 			self.deactivated = True
 
+		def normal_method(self):
+			pass
+
+		@contextmanager.activated
+		def activated_method(self):
+			pass
+
 	def test_alternative_activation(self):
 		aa = self.AlternativelyActivated()
 
@@ -77,8 +84,18 @@ class TestContextManager(unittest.TestCase):
 		sa = self.SimpleActivated()
 
 		sa.normal_method()
-
 		self.assertRaises(contextmanager.ActivationRequiredException, lambda: sa.activated_method())
 
 		with sa as s:
+			s.normal_method()
 			s.activated_method()
+
+	def test_activated_calls_with_alternative_activation(self):
+		aa = self.AlternativelyActivated()
+
+		aa.normal_method()
+		self.assertRaises(contextmanager.ActivationRequiredException, lambda: aa.activated_method())
+
+		with aa.alternatively_activate() as a:
+			a.normal_method()
+			a.activated_method()

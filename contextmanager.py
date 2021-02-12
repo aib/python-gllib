@@ -46,7 +46,7 @@ class _ActivatorProxy:
 		self.original = original
 
 	def __enter__(self):
-		_activate(self)
+		_activate(self.original)
 		return self.original
 
 	def __exit__(self, exc_type, exc_value, traceback):

@@ -68,9 +68,11 @@ class SdlRunner:
 		ev = sdl2.SDL_Event()
 
 		frames = 0
-		frame_count_time = time.monotonic()
+		frame_count_time = last_update_time = time.monotonic()
 
 		while True:
+			now = time.monotonic()
+
 			while True:
 				if sdl2.SDL_PollEvent(ev) == 0:
 					break
@@ -82,11 +84,13 @@ class SdlRunner:
 				if quit:
 					return
 
+			self._safe_call_scene('gl_update', now - last_update_time)
+			last_update_time = now
+
 			self._safe_call_scene('gl_render')
 			sdl2.SDL_GL_SwapWindow(window)
 
 			frames += 1
-			now = time.monotonic()
 			elapsed = now - frame_count_time
 			if elapsed > self.fps_calc_time:
 				fps = frames / elapsed

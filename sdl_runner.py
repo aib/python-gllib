@@ -1,5 +1,7 @@
 from .gl import GL
 
+import time
+
 import sdl2
 
 class SdlRunner:
@@ -8,6 +10,7 @@ class SdlRunner:
 		self.fullscreen = True
 		self.title = ""
 		self.vsync = None
+		self.fps_calc_time = 1
 		self.width = None
 		self.height = None
 
@@ -24,6 +27,10 @@ class SdlRunner:
 
 	def set_vsync(self, vsync):
 		self.vsync = vsync
+		return self
+
+	def set_fps_calc_time(self, fps_calc_time):
+		self.fps_calc_time = fps_calc_time
 		return self
 
 	def set_resolution(self, width, height):
@@ -59,6 +66,10 @@ class SdlRunner:
 
 	def _run_event_loop(self, window, context):
 		ev = sdl2.SDL_Event()
+
+		frames = 0
+		frame_count_time = time.monotonic()
+
 		while True:
 			while True:
 				if sdl2.SDL_PollEvent(ev) == 0:
@@ -73,6 +84,15 @@ class SdlRunner:
 
 			self._safe_call_scene('gl_render')
 			sdl2.SDL_GL_SwapWindow(window)
+
+			frames += 1
+			now = time.monotonic()
+			elapsed = now - frame_count_time
+			if elapsed > self.fps_calc_time:
+				fps = frames / elapsed
+				frames = 0
+				frame_count_time = now
+				self._safe_call_scene('gl_fps', fps)
 
 	def _safe_call_scene(self, func, *args, **kwargs):
 		if hasattr(self.scene, func):

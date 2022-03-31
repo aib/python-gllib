@@ -49,9 +49,9 @@ class SdlRunner:
 				sdl2.SDL_GL_SetSwapInterval(0)
 
 		try:
-			self.scene.gl_init((self.width, self.height))
+			self._safe_call_scene('gl_init', (self.width, self.height))
 			self._run_event_loop(window, context)
-			self.scene.gl_quit()
+			self._safe_call_scene('gl_quit')
 		finally:
 			sdl2.SDL_GL_DeleteContext(context)
 			sdl2.SDL_DestroyWindow(window)
@@ -67,9 +67,16 @@ class SdlRunner:
 				if ev.type == sdl2.SDL_QUIT:
 					return
 
-				quit = self.scene.sdl_event(ev)
+				quit = self._safe_call_scene('sdl_event', ev)
 				if quit:
 					return
 
-			self.scene.gl_render()
+			self._safe_call_scene('gl_render')
 			sdl2.SDL_GL_SwapWindow(window)
+
+	def _safe_call_scene(self, func, *args, **kwargs):
+		if hasattr(self.scene, func):
+			func = getattr(self.scene, func)
+
+		if callable(func):
+			return func(*args, **kwargs)

@@ -1,4 +1,5 @@
 from .gl import GL
+from . import attribute
 from . import contextmanager
 from . import uniform
 
@@ -43,6 +44,7 @@ class Program:
 	def __init__(self):
 		self.id = GL.glCreateProgram()
 		self.shader_ids = []
+		self._attribute_locations = {}
 		self._uniform_locations = {}
 
 	def add_shader(self, shader_type, shader_source):
@@ -54,6 +56,17 @@ class Program:
 
 	def activate(self):
 		GL.glUseProgram(self.id)
+
+	def get_attribute_location(self, name, silent=False):
+		if name in self._attribute_locations:
+			return self._attribute_locations[name]
+
+		location = attribute.get_attribute_location(self.id, name, silent=silent)
+		if location == -1:
+			return -1
+
+		self._attribute_locations[name] = location
+		return location
 
 	def get_uniform_location(self, name, silent=False):
 		if name in self._uniform_locations:

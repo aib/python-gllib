@@ -56,12 +56,15 @@ class Program:
 		GL.glUseProgram(self.id)
 
 	def get_uniform_location(self, name, silent=False):
-		if name not in self._uniform_locations:
-			location = uniform.get_uniform_location(self.id, name, silent=silent)
-			if location != -1:
-				self._uniform_locations[name] = location
+		if name in self._uniform_locations:
+			return self._uniform_locations[name]
 
-		return self._uniform_locations[name]
+		location = uniform.get_uniform_location(self.id, name, silent=silent)
+		if location == -1:
+			return -1
+
+		self._uniform_locations[name] = location
+		return location
 
 class VertexFragmentProgram(Program):
 	def __init__(self, vertex_shader, fragment_shader):

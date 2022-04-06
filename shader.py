@@ -52,6 +52,8 @@ class Program:
 		self.shader_ids.append(shader_id)
 
 	def link(self):
+		self._attribute_locations = {}
+		self._uniform_locations = {}
 		link_program(self.id, self.shader_ids)
 
 	def activate(self):

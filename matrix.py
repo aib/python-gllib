@@ -41,6 +41,9 @@ def rotate(axis, theta, dtype=None):
 		[        0,                 0,                 0,         1 ]
 	], dtype=dtype)
 
+def rotate3(axis, theta, dtype=None):
+	return rotate(axis, theta, dtype=dtype)[0:3, 0:3]
+
 def perspective(fovy, aspect, zNear, zFar, dtype=None):
 	f = 1 / math.tan(fovy / 2)
 	M = numpy.array([

@@ -68,10 +68,10 @@ class SdlRunner:
 		ev = sdl2.SDL_Event()
 
 		frames = 0
-		frame_count_time = last_update_time = time.monotonic()
+		frame_count_time = last_update_time = time.perf_counter()
 
 		while True:
-			now = time.monotonic()
+			now = time.perf_counter()
 
 			while True:
 				if sdl2.SDL_PollEvent(ev) == 0:

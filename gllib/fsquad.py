@@ -45,11 +45,11 @@ class FSQuad:
 		with self.vao as va:
 			with self.vertices_vbo as vb:
 				vb.set_data(util.to_float_array(VERTICES))
-				va.set_vertex_attrib(vb, 0, 2, GL.GL_FLOAT)
+				va.set_vertex_attribute(vb, 0, 2, GL.GL_FLOAT)
 
 			with self.texcoords_vbo as vb:
 				vb.set_data(util.to_float_array(TEXCOORDS))
-				va.set_vertex_attrib(vb, 1, 2, GL.GL_FLOAT)
+				va.set_vertex_attribute(vb, 1, 2, GL.GL_FLOAT)
 
 	def set_texture_unit(self, unit):
 		with self.program as p:

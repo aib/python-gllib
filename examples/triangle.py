@@ -1,7 +1,7 @@
 import ctypes
 
 from gllib.gl import GL
-import gllib.shader
+import gllib.program
 import gllib.vao
 import gllib.vbo
 import gllib.sdl_runner

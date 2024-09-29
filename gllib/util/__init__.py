@@ -1,3 +1,5 @@
+from .dtype import *
+
 import ctypes
 import itertools
 

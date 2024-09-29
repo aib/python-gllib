@@ -54,7 +54,7 @@ def perspective(fovy, aspect, zNear, zFar, dtype=None):
 	], dtype=dtype)
 	return M
 
-def lookAt(eye, center, up, dtype=None):
+def look_at(eye, center, up, dtype=None):
 	eye, center, up = numpy.asarray(eye), numpy.asarray(center), numpy.asarray(up)
 	f = vector.normalize3(center - eye)
 	s = vector.normalize3(vector.cross3(f, up))

@@ -4,7 +4,7 @@ import time
 
 import sdl2
 
-class SdlRunner:
+class SDLRunner:
 	def __init__(self, scene):
 		self.scene = scene
 		self.fullscreen = True
@@ -104,3 +104,6 @@ class SdlRunner:
 
 		if callable(func):
 			return func(*args, **kwargs)
+
+# @deprecated
+class SdlRunner(SDLRunner): pass

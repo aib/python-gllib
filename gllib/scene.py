@@ -30,7 +30,7 @@ class Scene:
 		sdl2.SDL_SetWindowTitle(sdl2.SDL_GL_GetCurrentWindow(), f"{self.title} — {self.fps:.1f} FPS".encode('utf-8'))
 
 	def get_runner(self):
-		return sdl_runner.SdlRunner(self) \
+		return sdl_runner.SDLRunner(self) \
 			.set_title(self.title)
 
 	def key_down(self, key):
